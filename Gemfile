@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.13'
 gem 'pg', '0.12.2'
 gem 'bootstrap-sass'
+gem 'bcrypt-ruby'
 
 group :development, :test do
   gem 'rspec-rails', '2.11.0'
@@ -25,4 +26,8 @@ group :test do
   gem 'capybara', '1.1.2'
   gem 'rb-inotify'
   gem 'libnotify'
+end
+
+group :development do
+  gem 'annotate'
 end
