@@ -31,6 +31,28 @@ describe "Static pages" do
           page.should have_selector("li##{item.id}", text: item.content)
         end
       end
+
+      it "should display the number of post a user has" do
+        page.should have_selector("span", text: "#{user.microposts.count} micropost#{'s' unless user.microposts.count == 1}")
+      end
+    end
+
+    describe "pagination" do
+      let(:user) { FactoryGirl.create(:user) }
+      before do
+        30.times { FactoryGirl.create(:micropost, user: user) }
+        FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
+        sign_in user
+        visit root_path
+      end
+
+      it { should have_selector('div.pagination') }
+
+      it "should list each micropost" do
+        Micropost.paginate(page: 1).each do |micropost|
+          page.should have_selector('li', id: micropost.id)
+        end
+      end
     end
   end
 
