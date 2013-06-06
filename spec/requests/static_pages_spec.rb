@@ -35,6 +35,17 @@ describe "Static pages" do
       it "should display the number of post a user has" do
         page.should have_selector("span", text: "#{user.microposts.count} micropost#{'s' unless user.microposts.count == 1}")
       end
+
+      describe "follower/following counts" do
+        let(:other_user) { FactoryGirl.create(:user) }
+        before do
+          other_user.follow!(user)
+          visit root_path
+        end
+
+        it { should have_link("0 following", href: following_user_path(user)) }
+        it { should have_link("1 followers", href: followers_user_path(user)) }
+      end
     end
 
     describe "pagination" do
